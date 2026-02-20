@@ -1,4 +1,9 @@
+import { useLocation } from "react-router-dom";
+
 export const Header = () => {
+  const { pathname } = useLocation();
+  const isLoggedIn = pathname !== "/" && pathname !== "/logout";
+
   return (
     <header
       style={{
@@ -10,15 +15,22 @@ export const Header = () => {
         justifyContent: "space-between",
         fontFamily: "Arial, sans-serif",
         boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+        width: "100%",
+        boxSizing: "border-box",
       }}
     >
       <span style={{ fontSize: "20px", fontWeight: 700, letterSpacing: "0.5px" }}>
         Todo App
       </span>
       <nav style={{ display: "flex", gap: "24px", fontSize: "14px", fontWeight: 600 }}>
-        <a href="/" style={{ color: "#ffffff", textDecoration: "none" }}>Login</a>
-        <a href="/todos" style={{ color: "#ffffff", textDecoration: "none" }}>Todos</a>
-        <a href="/logout" style={{ color: "#fca5a5", textDecoration: "none" }}>Logout</a>
+        {isLoggedIn && (
+          <a href="/todos" style={{ color: "#ffffff", textDecoration: "none" }}>Todos</a>
+        )}
+        {isLoggedIn ? (
+          <a href="/logout" style={{ color: "#fca5a5", textDecoration: "none" }}>Logout</a>
+        ) : (
+          <a href="/" style={{ color: "#ffffff", textDecoration: "none" }}>Login</a>
+        )}
       </nav>
     </header>
   );

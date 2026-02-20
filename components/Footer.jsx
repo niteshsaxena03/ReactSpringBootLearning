@@ -9,6 +9,8 @@ export const Footer = () => {
         fontFamily: "Arial, sans-serif",
         fontSize: "13px",
         marginTop: "auto",
+        width: "100%",
+        boxSizing: "border-box",
       }}
     >
       © {new Date().getFullYear()} Todo App. All rights reserved.
