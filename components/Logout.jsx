@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export const Logout = () => {
   const navigate = useNavigate();
+  const { logout } = useAuth();
   return (
     <div
       style={{
@@ -26,7 +28,7 @@ export const Logout = () => {
           See you next time!
         </p>
         <button
-          onClick={() => navigate("/")}
+          onClick={() => { logout(); navigate("/"); }}
           style={{
             padding: "10px 24px",
             backgroundColor: "#2563eb",

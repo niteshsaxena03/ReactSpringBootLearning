@@ -1,15 +1,18 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export const Login = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [authStatus, setAuthStatus] = useState(null);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   function handleSubmit() {
     if (userName === "nitesh" && password === "testing") {
       setAuthStatus("success");
+      login();
       navigate(`/welcome/${userName}`);
     } else {
       setAuthStatus("failed");

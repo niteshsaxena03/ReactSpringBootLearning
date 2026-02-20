@@ -1,8 +1,7 @@
-import { useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export const Header = () => {
-  const { pathname } = useLocation();
-  const isLoggedIn = pathname !== "/" && pathname !== "/logout";
+  const { isAuthenticated: isLoggedIn } = useAuth();
 
   return (
     <header
