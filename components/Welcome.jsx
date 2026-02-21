@@ -1,12 +1,18 @@
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
+import {
+  retrieveHelloWorldBean,
+  retrieveHelloWorldPathVariable,
+} from "../api/HelloWorldApiService";
 
 export const Welcome = () => {
   const { username } = useParams();
   const navigate = useNavigate();
   const [helloWorldResponse, setHelloWorldResponse] = useState("");
   const [helloWorldBeanResponse, setHelloWorldBeanResponse] = useState("");
+  const [helloWorldPathVariableResponse, setHelloWorldPathVariableResponse] =
+    useState("");
 
   const callHelloWorldApi = async () => {
     try {
@@ -19,13 +25,20 @@ export const Welcome = () => {
   };
   const callHelloWorldBeanApi = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:8080/hello-world-bean",
-      );
+      const response = await retrieveHelloWorldBean();
       console.log(response);
       setHelloWorldBeanResponse(response.data.message);
     } catch (error) {
       setHelloWorldBeanResponse("Error: " + error.message);
+    }
+  };
+  const callHelloWorldPathVariableApi = async () => {
+    try {
+      const response = await retrieveHelloWorldPathVariable("nitesh");
+      console.log(response);
+      setHelloWorldPathVariableResponse(response.data.message);
+    } catch (error) {
+      setHelloWorldPathVariableResponse("Error: " + error.message);
     }
   };
   return (
@@ -128,10 +141,29 @@ export const Welcome = () => {
           >
             Call hello world bean rest api
           </button>
+          <button
+            onClick={callHelloWorldPathVariableApi}
+            style={{
+              width: "100%",
+              padding: "12px",
+              backgroundColor: "#2563eb",
+              color: "#ffffff",
+              border: "none",
+              borderRadius: "10px",
+              fontSize: "16px",
+              fontWeight: 700,
+              cursor: "pointer",
+              letterSpacing: "0.3px",
+              marginTop: 10,
+            }}
+          >
+            Call hello world path variable rest api
+          </button>
         </div>
       </div>
       <h2>{helloWorldResponse}</h2>
       <h2>{helloWorldBeanResponse}</h2>
+      <h2>{helloWorldPathVariableResponse}</h2>
     </div>
   );
 };
