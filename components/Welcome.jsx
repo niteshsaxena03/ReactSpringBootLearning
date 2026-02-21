@@ -1,8 +1,33 @@
 import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useState } from "react";
 
 export const Welcome = () => {
   const { username } = useParams();
   const navigate = useNavigate();
+  const [helloWorldResponse, setHelloWorldResponse] = useState("");
+  const [helloWorldBeanResponse, setHelloWorldBeanResponse] = useState("");
+
+  const callHelloWorldApi = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/hello-world");
+      setHelloWorldResponse(response.data);
+    } catch (error) {
+      //console.log(error.message);
+      setHelloWorldResponse("Error: " + error.message);
+    }
+  };
+  const callHelloWorldBeanApi = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8080/hello-world-bean",
+      );
+      console.log(response);
+      setHelloWorldBeanResponse(response.data.message);
+    } catch (error) {
+      setHelloWorldBeanResponse("Error: " + error.message);
+    }
+  };
   return (
     <div
       style={{
@@ -66,7 +91,47 @@ export const Welcome = () => {
         >
           Manage Todos →
         </button>
+        <div>
+          <button
+            onClick={callHelloWorldApi}
+            style={{
+              width: "100%",
+              padding: "12px",
+              backgroundColor: "#2563eb",
+              color: "#ffffff",
+              border: "none",
+              borderRadius: "10px",
+              fontSize: "16px",
+              fontWeight: 700,
+              cursor: "pointer",
+              letterSpacing: "0.3px",
+              marginTop: 10,
+            }}
+          >
+            Call hello world rest api
+          </button>
+          <button
+            onClick={callHelloWorldBeanApi}
+            style={{
+              width: "100%",
+              padding: "12px",
+              backgroundColor: "#2563eb",
+              color: "#ffffff",
+              border: "none",
+              borderRadius: "10px",
+              fontSize: "16px",
+              fontWeight: 700,
+              cursor: "pointer",
+              letterSpacing: "0.3px",
+              marginTop: 10,
+            }}
+          >
+            Call hello world bean rest api
+          </button>
+        </div>
       </div>
+      <h2>{helloWorldResponse}</h2>
+      <h2>{helloWorldBeanResponse}</h2>
     </div>
   );
-}
+};
