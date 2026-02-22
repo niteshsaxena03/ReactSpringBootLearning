@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { retrieveTodosForUsername } from "../api/TodoApiService";
+import {
+  deleteTodoById,
+  retrieveTodosForUsername,
+} from "../api/TodoApiService";
 import { useEffect } from "react";
 
 export const Todos = () => {
@@ -10,6 +13,15 @@ export const Todos = () => {
       const response = await retrieveTodosForUsername("in28minutes");
       console.log(response);
       setTodos(response.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  const deleteTodo = async (id) => {
+    try {
+      const response=await deleteTodoById("in28minutes", id);
+      //console.log(response.data);
+      retrieveTodos();
     } catch (error) {
       console.log(error.message);
     }
@@ -59,6 +71,9 @@ export const Todos = () => {
               <th style={{ padding: "10px 16px", textAlign: "left" }}>
                 Is Done
               </th>
+              <th style={{ padding: "10px 16px", textAlign: "left" }}>
+                Target Date
+              </th>
               <th
                 style={{
                   padding: "10px 16px",
@@ -66,7 +81,7 @@ export const Todos = () => {
                   borderRadius: "0 8px 0 0",
                 }}
               >
-                Target Date
+                Action
               </th>
             </tr>
           </thead>
@@ -84,6 +99,23 @@ export const Todos = () => {
                 </td>
                 <td style={{ padding: "10px 16px", color: "#374151" }}>
                   {todo.targetDate}
+                </td>
+                <td style={{ padding: "10px 16px" }}>
+                  <button
+                    style={{
+                      padding: "4px 12px",
+                      backgroundColor: "#ef4444",
+                      color: "#ffffff",
+                      border: "none",
+                      borderRadius: "6px",
+                      cursor: "pointer",
+                      fontWeight: 600,
+                      fontSize: "13px",
+                    }}
+                    onClick={() => deleteTodo(todo.id)}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
